@@ -1,5 +1,6 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit'
+import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import { sub } from 'date-fns'
+import { client } from '../../api/client'
 
 const initialState = {
   posts: [],
@@ -61,3 +62,8 @@ export const selectAllPosts = state => state.posts.posts
 export const selectPostById = (state, postId) =>
   state.posts.posts.find(post => post.id === postId)
 
+
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async ()=> {
+    const response = await client.get('/fakeApi/posts')
+    return response.data
+})
